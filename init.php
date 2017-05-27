@@ -1,9 +1,12 @@
 <?php
 /**
- * iThemes Exchange Digital Variants Add-on
+ * Initialisation for the iThemes Exchange Digital Variants Add-on plugin
+ *
  * @package IT_Exchange_Addon_Digital_Variants
  * @since   0.1.0
  */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * New API functions.
