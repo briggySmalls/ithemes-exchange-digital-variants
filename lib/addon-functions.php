@@ -17,11 +17,14 @@ defined( 'ABSPATH' ) || exit;
  * @return     True if transaction product is digital, False otherwise.
  */
 function it_exchange_digital_variants_addon_is_digital_variant_from_data( $product_id, $itemized_data ) {
-	// Get the product details from the transaction.
-	$itemized_data = maybe_unserialize( $itemized_data );
-	if ( ! empty( $itemized_data['it_variant_combo_hash'] ) ) {
-		// Product is of a particular variant, get the attributes.
-		return it_exchange_digital_variants_addon_is_digital_variant( $product_id, $itemized_data['it_variant_combo_hash'] );
+	if ( it_exchange_get_product_type( $product_id ) == 'digital-variant-product-type')
+	{
+		// Get the product details from the transaction.
+		$itemized_data = maybe_unserialize( $itemized_data );
+		if ( ! empty( $itemized_data['it_variant_combo_hash'] ) ) {
+			// Product is of a particular variant, get the attributes.
+			return it_exchange_digital_variants_addon_is_digital_variant( $product_id, $itemized_data['it_variant_combo_hash'] );
+		}
 	}
 	return false;
 }

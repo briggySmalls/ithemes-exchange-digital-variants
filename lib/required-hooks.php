@@ -14,7 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * @return     void
  */
 function it_exchange_digital_variants_addon_add_downloads_to_physical_products() {
-	it_exchange_add_feature_support_to_product_type( 'downloads', 'physical-product-type' );
+	it_exchange_add_feature_support_to_product_type( 'downloads', 'digital-variant-product-type' );
+	it_exchange_add_feature_support_to_product_type( 'shipping', 'digital-variant-product-type' );
 }
 add_action( 'it_exchange_enabled_addons_loaded', 'it_exchange_digital_variants_addon_add_downloads_to_physical_products' );
 
