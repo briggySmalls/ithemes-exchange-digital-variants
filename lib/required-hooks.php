@@ -9,15 +9,15 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Adds the downloads feature to physical products.
+ * Adds the necessary product features to digital variant products.
  *
  * @return     void
  */
-function it_exchange_digital_variants_addon_add_downloads_to_physical_products() {
+function it_exchange_digital_variants_addon_add_features_to_digital_variant_products() {
 	it_exchange_add_feature_support_to_product_type( 'downloads', 'digital-variant-product-type' );
 	it_exchange_add_feature_support_to_product_type( 'shipping', 'digital-variant-product-type' );
 }
-add_action( 'it_exchange_enabled_addons_loaded', 'it_exchange_digital_variants_addon_add_downloads_to_physical_products' );
+add_action( 'it_exchange_enabled_addons_loaded', 'it_exchange_digital_variants_addon_add_features_to_digital_variant_products' );
 
 /**
  * Adds digital/physical variant presets
