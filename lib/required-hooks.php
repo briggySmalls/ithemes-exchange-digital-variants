@@ -71,7 +71,7 @@ function it_exchange_digital_variants_addon_create_digital_variant() {
  * @return     None
  */
 function it_exchange_digital_variants_addon_init() {
-	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY, true );
+	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
 
 	// Confirm that the option exists
 	if ( $addon_settings['variant_id'] ) {
@@ -89,6 +89,7 @@ function it_exchange_digital_variants_addon_init() {
 		it_exchange_save_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY, $addon_settings );
 	}
 }
+add_action( 'admin_init', 'it_exchange_digital_variants_addon_init' );
 
 /**
  * Intercept attempts to discover if the product has downloads, and if it is not
@@ -216,13 +217,11 @@ function it_exchange_digital_variants_addon_save_with_variant( $product_id ) {
 	foreach ( $variants as $variant ) {
 		if ( it_exchange_digital_variants_addon_is_digital_variant_from_variant( $variant ) ) {
 			// The variant is already attached
-			skindeep_write_log("breaking early!");
 			return;
 		}
 	}
 
 	// We need to add the digital variant
-	// TODO: Check if digital variant was there but has been renamed...
 	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
 	$existing_variant_data['variants'][] = $addon_settings['variant_id'];
 

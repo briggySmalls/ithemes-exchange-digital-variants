@@ -56,5 +56,6 @@ function it_exchange_digital_variants_addon_is_digital_variant( $product_id, $it
  * @return     true if variant is a digital variant, otherwise false
  */
 function it_exchange_digital_variants_addon_is_digital_variant_from_variant( $variant ) {
-	return ( IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_SLUG === $variant->post_name );
+	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
+	return ( $addon_settings['variant_id'] == $variant->ID );
 }
