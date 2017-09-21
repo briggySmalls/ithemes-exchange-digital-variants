@@ -27,14 +27,11 @@ function it_exchange_register_digital_variants_addon() {
 		'description'       => __( 'This is a digital variant product type for selling items with a digital variant.', 'exchange-addon-digital-variants' ),
 		'author'            => 'Sam Briggs',
 		'author_url'        => 'https://github.com/briggySmalls',
-		// 'icon'              => ITUtility::get_url_from_file( dirname( __FILE__ ) . '/images/stripe50px.png' ),
 		'file'              => dirname( __FILE__ ) . '/init.php',
 		'category'          => 'product-type',
 		'labels'      		=> array(
 			'singular_name' => __( 'Digital Variant Product', 'it-l10n-ithemes-exchange' ),
 		),
-		// 'supports'          => array( 'sw-shortcode' => true ),
-		// 'settings-callback' => 'it_exchange_digital_variants_addon_settings_callback',
 	);
 	it_exchange_register_addon( 'digital-variant-product-type', $options );
 }
