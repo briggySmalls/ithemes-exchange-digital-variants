@@ -221,9 +221,14 @@ function it_exchange_digital_variants_addon_save_with_variant( $product_id ) {
 		}
 	}
 
-	// We need to add the digital variant
+	// We need to add the digital variant and its values
 	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
 	$existing_variant_data['variants'][] = $addon_settings['variant_id'];
+
+	$values = it_exchange_get_values_for_variant( $addon_settings['variant_id'] );
+	foreach ( $values as $value ) {
+		$existing_variant_data['variants'][] = $value->ID;
+	}
 
 	// Update
 	it_exchange_update_product_feature( $product_id, 'variants', $existing_variant_data );
