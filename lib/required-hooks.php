@@ -31,15 +31,18 @@ function it_exchange_digital_variants_addon_create_digital_variant() {
 			'post_title' => IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_TITLE,
 			'post_name' => IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_SLUG,
 			'ui_type' => IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_UI_TYPE,
+			'preset_slug' => IT_EXCHANGE_DIGITAL_VARIANTS_PRESET_SLUG,
 		),
 		'values' => array(
 			array(
 				'post_title' => IT_EXCHANGE_DIGITAL_VARIANTS_PHYSICAL_VARIANT_TITLE,
 				'post_name' => IT_EXCHANGE_DIGITAL_VARIANTS_PHYSICAL_VARIANT_SLUG,
+				'menu_order' => 0,
 			),
 			array(
 				'post_title' => IT_EXCHANGE_DIGITAL_VARIANTS_DIGITAL_VARIANT_TITLE,
 				'post_name' => IT_EXCHANGE_DIGITAL_VARIANTS_DIGITAL_VARIANT_SLUG,
+				'menu_order' => 1,
 			),
 		),
 	);
@@ -58,7 +61,7 @@ function it_exchange_digital_variants_addon_create_digital_variant() {
 		// Set as default, if necessary
 		if ( IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_DEFAULT === $value['post_name'] ) {
 			// Update the parent with the default value
-			it_exchange_variants_addon_update_variant( $variant_id, array( 'default' => $value_id ) );
+			it_exchange_variants_addon_update_variant( $variant_id, array( 'default' => "$value_id" ) );
 		}
 	}
 
@@ -74,7 +77,7 @@ function it_exchange_digital_variants_addon_init() {
 	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
 
 	// Confirm that the option exists
-	if ( $addon_settings['variant_id'] ) {
+	if ( isset( $addon_settings['variant_id'] ) ) {
 		// Confirm that the variant exists
 		if ( it_exchange_variants_addon_get_variant( $addon_settings['variant_id'] ) ) {
 			// The variant has already been created

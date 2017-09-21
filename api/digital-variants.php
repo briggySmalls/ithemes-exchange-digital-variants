@@ -17,6 +17,7 @@ define( 'IT_EXCHANGE_DIGITAL_VARIANTS_PHYSICAL_VARIANT_TITLE', 'Print' );
 define( 'IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_DEFAULT', IT_EXCHANGE_DIGITAL_VARIANTS_PHYSICAL_VARIANT_SLUG );
 define( 'IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_UI_TYPE', 'select' );
 define( 'IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY', 'digital-variants-addon' );
+define( 'IT_EXCHANGE_DIGITAL_VARIANTS_PRESET_SLUG', 'template-select' );
 
 /**
  * Checks if the product is a digital variant of a physical product
@@ -34,9 +35,9 @@ function it_exchange_digital_variants_addon_is_digital_variant( $product_id, $it
 
 	if ( is_array( $atts['combo'] ) ) {
 		// Loop through the product's variant value IDs...
-		foreach ( $atts['combo'] as $variant => $value_id ) {
+		foreach ( $atts['combo'] as $variant_id => $value_id ) {
 			// ...Find the matching details for the given variant ID.
-			$all_variant_values = it_exchange_get_values_for_variant( $variant );
+			$all_variant_values = it_exchange_get_values_for_variant( $variant_id );
 			foreach ( $all_variant_values as $value ) {
 				// ...And check if the value title matches the digital variant value title.
 				if ( ($value_id == $value->ID) && (IT_EXCHANGE_DIGITAL_VARIANTS_DIGITAL_VARIANT_SLUG === $value->post_name ) ) {
