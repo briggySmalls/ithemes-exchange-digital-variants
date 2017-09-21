@@ -3,12 +3,12 @@
  * Plugin Name:         iThemes Exchange - Digital Variants
  * Version:             0.2.0
  * Description:         Sell Digital variants of Physical products sold in iThemes Exchange
- * Plugin URI:          https://github.com/briggySmalls/exchange-addon-digital-variants
+ * Plugin URI:          https://github.com/briggySmalls/ithemes-exchange-digital-variants/
  * Author:              Sam Briggs
  * Author URI:          https://github.com/briggySmalls
  * License:             GPL3
  * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
- * GitHub Plugin URI:   https://github.com/briggySmalls/exchange-addon-digital-variants
+ * GitHub Plugin URI:   https://github.com/briggySmalls/ithemes-exchange-digital-variants/
  * iThemes Package:     exchange-digital-variants
  */
 
