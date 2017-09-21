@@ -23,7 +23,7 @@ function it_exchange_digital_variants_addon_is_digital_variant_from_data( $produ
 		$itemized_data = maybe_unserialize( $itemized_data );
 		if ( ! empty( $itemized_data['it_variant_combo_hash'] ) ) {
 			// Product is of a particular variant, get the attributes.
-			return it_exchange_digital_variants_addon_is_digital_variant( $product_id, $itemized_data['it_variant_combo_hash'] );
+			return it_exchange_digital_variants_addon_is_digital_variant_from_product( $product_id, $itemized_data['it_variant_combo_hash'] );
 		}
 	}
 	return false;
