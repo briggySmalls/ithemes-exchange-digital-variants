@@ -47,8 +47,12 @@ function it_exchange_digital_variants_addon_create_digital_variant() {
 		),
 	);
 
+	// Get the app settings for updating
+	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
+
 	// Create the variant
 	$variant_id = it_exchange_variants_addon_create_variant( $variant_args['parent'] );
+	$addon_settings['variant_id'] = $variant_id;
 
 	// Create the values
 	foreach ( $variant_args['values'] as $value ) {
@@ -58,6 +62,11 @@ function it_exchange_digital_variants_addon_create_digital_variant() {
 		// Create the variant value
 		$value_id = it_exchange_variants_addon_create_variant( $value );
 
+		if ( IT_EXCHANGE_DIGITAL_VARIANTS_DIGITAL_VARIANT_SLUG == $value['post_name'] ) {
+			// Record the digital variant ID
+			$addon_settings['digital_value_id'] = $value_id;
+		}
+
 		// Set as default, if necessary
 		if ( IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_DEFAULT === $value['post_name'] ) {
 			// Update the parent with the default value
@@ -65,7 +74,8 @@ function it_exchange_digital_variants_addon_create_digital_variant() {
 		}
 	}
 
-	return $variant_id;
+	// Update the settings
+	it_exchange_save_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY, $addon_settings );
 }
 
 /**
@@ -77,20 +87,17 @@ function it_exchange_digital_variants_addon_init() {
 	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
 
 	// Confirm that the option exists
-	if ( isset( $addon_settings['variant_id'] ) ) {
-		// Confirm that the variant exists
-		if ( it_exchange_variants_addon_get_variant( $addon_settings['variant_id'] ) ) {
-			// The variant has already been created
+	if ( isset( $addon_settings['variant_id'] ) && isset( $addon_settings['digital_value_id'] ) ) {
+		// Confirm that the variants exist
+		if ( it_exchange_variants_addon_get_variant( $addon_settings['variant_id'] ) &&
+			 it_exchange_variants_addon_get_variant( $addon_settings['digital_value_id'] ) ) {
+			// The variants have already been created
 			return;
 		}
 	}
 
 	// Create the digital variant and save its ID in the database
-	if ( $new_id = it_exchange_digital_variants_addon_create_digital_variant() ) {
-		// Create an option to the database
-		$addon_settings['variant_id'] = $new_id;
-		it_exchange_save_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY, $addon_settings );
-	}
+	it_exchange_digital_variants_addon_create_digital_variant();
 }
 add_action( 'admin_init', 'it_exchange_digital_variants_addon_init' );
 
@@ -218,7 +225,7 @@ function it_exchange_digital_variants_addon_save_with_variant( $product_id ) {
 
 	// Ensure that the digital variant is among them
 	foreach ( $variants as $variant ) {
-		if ( it_exchange_digital_variants_addon_is_digital_variant_from_variant( $variant ) ) {
+		if ( it_exchange_digital_variants_addon_is_digital_variant_from_variant( $variant->ID ) ) {
 			// The variant is already attached
 			return;
 		}
