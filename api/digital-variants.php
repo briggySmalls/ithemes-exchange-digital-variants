@@ -37,7 +37,7 @@ function it_exchange_digital_variants_addon_is_digital_variant_from_product( $pr
 		// Loop through the product's variant value IDs...
 		foreach ( $atts['combo'] as $variant_id => $value_id ) {
 			if ( it_exchange_digital_variants_addon_is_digital_variant_from_value( $value_id ) ) {
-				// The product has a variant value indicating it is a digital variant
+				// The product has a variant value indicating it is a digital variant.
 				return true;
 			}
 		}
@@ -46,7 +46,7 @@ function it_exchange_digital_variants_addon_is_digital_variant_from_product( $pr
 }
 
 /**
- * @brief      Checks whether the provided variant is a digital variant
+ * Checks whether the provided variant is a digital variant
  *
  * @param      $variant  The variant object
  *
@@ -54,11 +54,11 @@ function it_exchange_digital_variants_addon_is_digital_variant_from_product( $pr
  */
 function it_exchange_digital_variants_addon_is_digital_variant_from_variant( $variant_id ) {
 	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
-	return ( $addon_settings['variant_id'] == $variant_id );
+	return ( $addon_settings['variant_id'] === $variant_id );
 }
 
 /**
- * @brief      Checks whether the provided variant value is a digital value
+ * Checks whether the provided variant value is a digital value
  *
  * @param      $variant  The value object
  *
@@ -66,5 +66,5 @@ function it_exchange_digital_variants_addon_is_digital_variant_from_variant( $va
  */
 function it_exchange_digital_variants_addon_is_digital_variant_from_value( $value_id ) {
 	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
-	return ( $addon_settings['digital_value_id'] == $value_id );
+	return ( $addon_settings['digital_value_id'] === $value_id );
 }

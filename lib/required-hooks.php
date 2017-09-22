@@ -20,12 +20,12 @@ function it_exchange_digital_variants_addon_add_features_to_digital_variant_prod
 add_action( 'it_exchange_enabled_addons_loaded', 'it_exchange_digital_variants_addon_add_features_to_digital_variant_products' );
 
 /**
- * @brief      Creates the digital variant that is shared by all digital variant products
+ * Creates the digital variant that is shared by all digital variant products
  *
- * @return     Variant ID
+ * @return     void
  */
 function it_exchange_digital_variants_addon_create_digital_variant() {
-	// Construct the arguments for the variant (inc values)
+	// Construct the arguments for the variant (inc values).
 	$variant_args = array(
 		'parent' => array(
 			'post_title' => IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_TITLE,
@@ -47,56 +47,58 @@ function it_exchange_digital_variants_addon_create_digital_variant() {
 		),
 	);
 
-	// Get the app settings for updating
+	// Get the app settings for updating.
 	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
 
-	// Create the variant
+	// Create the variant.
 	$variant_id = it_exchange_variants_addon_create_variant( $variant_args['parent'] );
 	$addon_settings['variant_id'] = $variant_id;
 
-	// Create the values
+	// Create the values.
 	foreach ( $variant_args['values'] as $value ) {
-		// Update the args with the variant
+		// Update the args with the variant.
 		$value['post_parent'] = $variant_id;
 
-		// Create the variant value
+		// Create the variant value.
 		$value_id = it_exchange_variants_addon_create_variant( $value );
 
-		if ( IT_EXCHANGE_DIGITAL_VARIANTS_DIGITAL_VARIANT_SLUG == $value['post_name'] ) {
-			// Record the digital variant ID
+		if ( IT_EXCHANGE_DIGITAL_VARIANTS_DIGITAL_VARIANT_SLUG === $value['post_name'] ) {
+			// Record the digital variant ID.
 			$addon_settings['digital_value_id'] = $value_id;
 		}
 
-		// Set as default, if necessary
+		// Set as default, if necessary.
 		if ( IT_EXCHANGE_DIGITAL_VARIANTS_VARIANT_DEFAULT === $value['post_name'] ) {
-			// Update the parent with the default value
-			it_exchange_variants_addon_update_variant( $variant_id, array( 'default' => "$value_id" ) );
+			// Update the parent with the default value.
+			it_exchange_variants_addon_update_variant( $variant_id, array(
+				'default' => "$value_id",
+			) );
 		}
 	}
 
-	// Update the settings
+	// Update the settings.
 	it_exchange_save_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY, $addon_settings );
 }
 
 /**
- * @brief      Ensures that there is a digital variant created and recorded
+ * Ensures that there is a digital variant created and recorded
  *
- * @return     None
+ * @return     void
  */
 function it_exchange_digital_variants_addon_init() {
 	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
 
-	// Confirm that the option exists
+	// Confirm that the option exists.
 	if ( isset( $addon_settings['variant_id'] ) && isset( $addon_settings['digital_value_id'] ) ) {
-		// Confirm that the variants exist
+		// Confirm that the variants exist.
 		if ( it_exchange_variants_addon_get_variant( $addon_settings['variant_id'] ) &&
 			 it_exchange_variants_addon_get_variant( $addon_settings['digital_value_id'] ) ) {
-			// The variants have already been created
+			// The variants have already been created.
 			return;
 		}
 	}
 
-	// Create the digital variant and save its ID in the database
+	// Create the digital variant and save its ID in the database.
 	it_exchange_digital_variants_addon_create_digital_variant();
 }
 add_action( 'admin_init', 'it_exchange_digital_variants_addon_init' );
@@ -113,8 +115,8 @@ add_action( 'admin_init', 'it_exchange_digital_variants_addon_init' );
  */
 function it_exchange_digital_variants_has_feature_downloads( $has_downloads, $product_id ) {
 	if ( ! it_exchange_digital_variants_addon_is_digital_variant_from_data(
-                it_exchange_digital_variants_addon_get_transaction_product_attribute( 'product_id' ),
-                it_exchange_digital_variants_addon_get_transaction_product_attribute( 'itemized_data' )) ) {
+		it_exchange_digital_variants_addon_get_transaction_product_attribute( 'product_id' ),
+	it_exchange_digital_variants_addon_get_transaction_product_attribute( 'itemized_data' )) ) {
 		$has_downloads = false;
 	}
 	return $has_downloads;
@@ -136,7 +138,8 @@ add_filter( 'it_exchange_product_has_feature_downloads', 'it_exchange_digital_va
  * paramater to false will return a composite of all available methods across
  * products
  *
- * @param      $methods  The previously-calculated list of shipping methods for products in the cart
+ * @param      $methods  The previously-calculated list of shipping methods for
+ *                       products in the cart
  *
  * @return     An array of shipping methods
  */
@@ -158,7 +161,7 @@ function it_exchange_digital_variants_addon_get_available_shipping_methods_for_c
 			continue;
 		}
 
-		// <<<<<<< it_exchange_digital_variants_addon
+		// <<<<<<< it_exchange_digital_variants_addon.
 		// Skip product if it is a digital variant.
 		if ( it_exchange_digital_variants_addon_is_digital_variant_from_data( $product->ID, $cart_product['itemized_data'] ) ) {
 			continue;
@@ -207,31 +210,31 @@ add_filter(
 1);
 
 /**
- * @brief      Updates the digital variant product to have the variant attached
+ * Updates the digital variant product to have the variant attached
  *
  * @param      $product_id  The product identifier
  *
  * @return     None
  */
 function it_exchange_digital_variants_addon_save_with_variant( $product_id ) {
-	// Ensure that variants are enabled for the product
+	// Ensure that variants are enabled for the product.
 	$existing_variant_data = (array) it_exchange_get_product_feature( $product_id, 'variants' );
-	if ( empty( $new_variant_data['enabled'] ) || 'no' == $new_variant_data['enabled'] ) {
+	if ( empty( $new_variant_data['enabled'] ) || 'no' === $new_variant_data['enabled'] ) {
 		$existing_variant_data['enabled'] = 'yes';
 	}
 
-	// Get any existing variants
+	// Get any existing variants.
 	$variants = (array) it_exchange_get_variants_for_product( $product_id );
 
-	// Ensure that the digital variant is among them
+	// Ensure that the digital variant is among them.
 	foreach ( $variants as $variant ) {
 		if ( it_exchange_digital_variants_addon_is_digital_variant_from_variant( $variant->ID ) ) {
-			// The variant is already attached
+			// The variant is already attached.
 			return;
 		}
 	}
 
-	// We need to add the digital variant and its values
+	// We need to add the digital variant and its values.
 	$addon_settings = it_exchange_get_option( IT_EXCHANGE_DIGITAL_VARIANTS_SETTINGS_KEY );
 	$existing_variant_data['variants'][] = $addon_settings['variant_id'];
 
@@ -240,7 +243,7 @@ function it_exchange_digital_variants_addon_save_with_variant( $product_id ) {
 		$existing_variant_data['variants'][] = $value->ID;
 	}
 
-	// Update
+	// Update.
 	it_exchange_update_product_feature( $product_id, 'variants', $existing_variant_data );
 }
-add_action( 'it_exchange_save_product_digital-variant-product-type', 'it_exchange_digital_variants_addon_save_with_variant', 11);
+add_action( 'it_exchange_save_product_digital-variant-product-type', 'it_exchange_digital_variants_addon_save_with_variant', 11 );
